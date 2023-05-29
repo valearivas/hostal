@@ -1,0 +1,57 @@
+{% extends 'dos_alamos/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %} 
+
+    </header>
+      <div>
+        <div class="container">
+            {% if user.username == 'paula' or user.username == 'admin' %}
+            <h1 class="card-header" style="text-align: center;" > Gestión de Médicos </h1>
+            {% else %}
+            <h1 class="card-header" style="text-align: center;"> Mis reservas de hora </h1>
+            {% endif %}
+            <table class="table" style="border: 1px solid black;">
+                <div class="alert alert-success" role="alert"></div>
+                <thead>
+                    <tr>
+                        <th class="scope"> #</th>
+                        <th class="scope"> NOMBRES </th>
+                        <th class="scope"> APELLIDOS </th>
+                        <th class="scope"> ESPECIALIDAD </th>
+                        <th class="scope"> HORARIO </th>
+                        <th class="scope"> DIAS_DISPONIBLES </th>
+                        {% if user.username == 'paula' or user.username == 'admin' %}
+                        <th class="scope"> BORRAR</th>
+                        {% endif %}
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i in medico%}
+
+                    <tr>
+                        <td>⋇</td>
+                        <td>{{i.nombres}}</td>
+                        <td>{{i.apellidos}}</td>
+                        <td>{{i.especialidad.nombre}}</td>
+                        <td>{{i.horario}}</td>
+                        <td>{{i.dias_disponibles }}</td>
+                        
+                      
+                        {% if user.username == 'paula' or user.username == 'admin' %}
+                    
+                        <td><a href="{% url 'eliminar_m' i.id %}">❌</a></td>
+                        
+
+                       
+                        
+                        {% endif %}
+                
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        {% endblock %} 

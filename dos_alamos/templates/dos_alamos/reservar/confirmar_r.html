@@ -1,0 +1,23 @@
+{% extends 'dos_alamos/base.html' %}
+
+{% block content %}
+<div class="container col-12 col-md-6 offset-md-3">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="text-center">Confirmar Reserva</h1>
+    </div>
+    <div class="card-body">
+      <h3>Confirmar Reserva:</h3>
+      <p><strong>Médico:</strong> {{ reserva.medico }}</p>
+      <p><strong>Fecha:</strong> {{ reserva.dia }}</p>
+      <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+      <p><strong>Usuario:</strong> {{ reserva.usuario }}</p>
+      <!-- reserva.id % url 'confirmar_r_post'  %  -->
+      <form method="POST" action="">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Confirmar</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
