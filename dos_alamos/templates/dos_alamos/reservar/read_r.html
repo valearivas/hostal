@@ -33,11 +33,11 @@
 
                     <tr>
                         <td>⋇</td>
-                        <td>{{i.fecha}}</td>
+                        <td>{{i.info.dia}}</td>
                         <td>{{i.usuario.username}}</td>
-                        <td>{{i.medico.nombres}}</td>
-                        <td>{{i.medico.especialidad}}</td>
-                        <td>{{i.hora}}</td>
+                        <td>{{i.info.medico.nombres}}</td>
+                        <td>{{i.info.medico.especialidad}}</td>
+                        <td>{{i.info.hora}}</td>
                       
                         {% if user.username == 'paula' or user.username == 'admin' %}
                     
