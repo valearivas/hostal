@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'centroMedico.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mio_dos_alamos',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'NAME': 'dos_alamos',
+        'USER': 'dos_alamos',
+        'PASSWORD': '12345678',
+        'HOST': 'db4free.net',
         'PORT': '3306',
     }
 }

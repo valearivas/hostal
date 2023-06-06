@@ -86,21 +86,19 @@ def confirmar_r(request):
 
     if request.method == 'POST':
 
-        hora = HoraDisponible.objects.get(pk=request.POST['hora_disponible'])
-
-        reserva = {"medico": request.POST['medico'],"hora":request.POST['hora'],"dia":request.POST['dia'],"usuario":request.user}
-        #value=request.POST['dia']
-        print(reserva)
+        reserva = {"medico": request.POST['medico'],"hora":request.POST['hora'],"dia":request.POST['dia'],"usuario":request.user, "hora_id": request.POST['hora_disponible']}
     
     return render(request, 'dos_alamos/reservar/confirmar_r.html', {'reserva': reserva})
 
 
 @login_required
-def confirmar_r_post(request, reserva_id):
-    reserva = get_object_or_404(Reserva, id=reserva_id, usuario=request.user, confirmada=False)
-    reserva.confirmada = True
-    reserva.save()
-    return redirect('read_r')
+def confirmar_r_post(request):
+
+    if request.method == 'POST':
+
+        reserva = Reserva(info_id = request.POST['hora_disponible'], usuario=request.user,confirmada=True)
+        reserva.save()
+        return redirect('read_r')
 
 
 def read_r(request):
@@ -120,6 +118,8 @@ def read_r(request):
 
 
 def modify_r(request, id):
+
+    print(id)
 
     reserva = Reserva.objects.get(id = id)
 
