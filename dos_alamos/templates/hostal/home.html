@@ -1,0 +1,46 @@
+{% extends 'hostal/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %} 
+    </header>
+    <div class="container">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="./static/hostal/img/Hostal.jpg" class="d-block w-100" alt=>
+            </div>
+            <div class="carousel-item">
+                <img src="./static/hostal/img/Ovejas.jpg" class="d-block w-100" alt="">
+            </div>
+            <div class="carousel-item">
+                <img src="./static/hostal/img/Camino.jpg" class="d-block w-100" alt="">
+            </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
+        <hr>
+        <div class="row" id="nosotros">
+            <h2 class="text-center fs-1 text">Nosotros</h2>
+            
+
+            <p class="fs-5 text-center">DOÑA CLARITA es una empresa familiar dedicada al alojamiento y servicio de comedor para empresas, 
+                orientada principalmente a dar un servicio de calidad y seguridad a trabajadores que necesitan los servicios de hospedaje 
+                por periodos de tiempo. Este servicio es exclusivo para empresas y solo se hacen convenios con las mismas, no se aceptan 
+                clientes particulares. 
+
+            </p>
+             
+        </div>
+        <hr>
+        {% endblock %} 

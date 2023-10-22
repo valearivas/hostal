@@ -1,0 +1,95 @@
+{% extends 'hostal/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container col-12 col-md-6 offset-md-3">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="text-center">Agendar Reserva</h1>
+    </div>
+    <div class="card-body">
+      
+      
+      <form method="get" id="formulario">
+        {% csrf_token %}
+        <div class="form-group mt-3">
+          <label for="id_medico">Seleccionar fecha</label>
+          <select id="id_medico" name="medico" class="form-control">
+            {% for medico in medicos_especialidad %}
+            <option value="{{ medico.id }}">{{ medico.nombres }} {{ medico.apellidos }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-dark">Buscar disponibilidad</button>
+      </form>
+   
+      <form method="get" id="formulario-medicos">
+        {% csrf_token %}
+        <div class="form-group mt-3">
+          <label for="id_medico">Seleccionar habitación</label>
+          <select id="id_medico" name="medico" class="form-control">
+            {% for medico in medicos_especialidad %}
+            <option value="{{ medico.id }}">{{ medico.nombres }} {{ medico.apellidos }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-dark">Mostrar habitaciones</button>
+      </form>
+      
+      {% if fechas_horas_disponibles %}
+<div class="form-group mt-3">
+  <table class="table table-striped">
+    <thead class="table">
+      <tr class="table-primary">
+        <th>N°personas</th>
+        <th>Tipo habitación</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Reservar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in fechas_horas_disponibles %}
+      <tr>
+        <form method="POST" action="{% url 'confirmar_r' %}">
+          {% csrf_token %}
+          <td>{{ forloop.counter }}</td>
+          <td>{{ i.medico.nombres}} {{ i.medico.apellidos}}</td>
+          <td>{{ i.fecha }}</td>
+          <td>{{ i.hora }}</td>
+          <td>
+            <input type="hidden" name="hora_disponible" value="{{ i.id }}">
+            <input id="medico" name="medico" type="hidden" value="{{ i.medico.nombres}} {{ i.medico.apellidos}}">
+            <input id="hora" name="hora" type="hidden"  value="{{ i.hora }}">
+            <input id="dia" name="dia" type="hidden"  value="{{ i.fecha }}">
+            <button type="submit" class="btn btn-primary">Reservar</button>
+        </td>
+      </form>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+    
+
+      <div class="d-flex justify-content-end mt-3">
+        <a href="{% url 'read_r' %}" class="btn btn-dark">Agendar</a>
+      </div>
+
+      {% if mensaje %}
+      <div class="alert alert-success mt-3" role="alert">
+        {{ mensaje }}
+      </div>
+      {% endif %}
+    </div>
+    <div class="card-footer text-muted">
+      <!-- Footer content here -->
+    </div>
+  </div>
+</div>
+{% endblock %}

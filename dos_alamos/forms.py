@@ -6,7 +6,7 @@ from .models import *
 from datetime import datetime, timedelta
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-class ReservaForm(forms.Form):
+class ReservaForm(forms.ModelForm):
     especialidad = forms.ModelChoiceField(queryset=Especialidad.objects.all(), label='Seleccionar Especialidad')
     medico = forms.ModelChoiceField(queryset=Medico.objects.all(), label='Seleccionar Médico')
     hora = forms.ChoiceField(label='Seleccionar Hora')
@@ -39,21 +39,19 @@ class ReservaForm(forms.Form):
 
 
 class MedicoForm(forms.ModelForm):
-    DIAS_CHOICES = [
-        ('Lunes', 'Lunes'),
-        ('Martes', 'Martes'),
-        ('Miércoles', 'Miércoles'),
-        ('Jueves', 'Jueves'),
-        ('Viernes', 'Viernes'),
-        ('Sábado', 'Sábado'),
-        ('Domingo', 'Domingo'),
-    ]
-
-    dias_disponibles = forms.MultipleChoiceField(choices=DIAS_CHOICES, widget=forms.CheckboxSelectMultiple)
+   
 
     class Meta: 
         model = Medico
-        fields = ['nombres', 'apellidos', 'especialidad', 'dias_disponibles']
+        fields = ['nombres', 'apellidos', 'especialidad']
+
+
+class HoraDisponibleForm(forms.ModelForm):
+    dia = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    class Meta: 
+        model = HoraDisponible
+        fields = ['medico', 'dia', 'hora']
+
 
 
 class CustomUserCreationForm(UserCreationForm):

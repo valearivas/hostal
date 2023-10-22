@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dos_alamos',
+    'hostal',
+    #'dos_alamos',
     # Para formularios, tambien se instala (pip install django-crispy-forms)
     'crispy_forms',
     "crispy_bootstrap4",
@@ -87,10 +88,10 @@ WSGI_APPLICATION = 'centroMedico.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dos_alamos',
-        'USER': 'dos_alamos',
-        'PASSWORD': '12345678',
-        'HOST': 'db4free.net',
+        'NAME': 'hostal_donnaclara',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }

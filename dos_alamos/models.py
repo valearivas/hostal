@@ -31,7 +31,7 @@ class HoraDisponible(models.Model):
 
 
     def __str__(self):
-        return f" {self.dia} {self.hora} "
+        return f" {self.medico} {self.dia} {self.hora} "
 
 class Reserva(models.Model):
     info = models.ForeignKey(HoraDisponible, on_delete=models.CASCADE, blank = True, null=True,related_name='reservas' )
@@ -40,3 +40,9 @@ class Reserva(models.Model):
     
     def __str__(self):
         return f"{self.info.medico.nombres} {self.confirmada} {self.usuario}"
+
+class Habitacion(models.Model):
+    categoria = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f"{self.categoria}"        

@@ -10,7 +10,7 @@ from django.views import View
 
 # Create your views here.
 def home(request):
-    return render(request, 'dos_alamos/home.html')
+    return render(request, 'hostal/home.html')
 
 
 def registro(request):
@@ -37,8 +37,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 def crear_r(request):
     datos = {}
     formulario = ReservaForm()
-
-    
 
     if request.method == 'POST':
 
@@ -78,27 +76,32 @@ def crear_r(request):
     datos['form'] = formulario
     datos['medicos'] = Medico.objects.all()
 
-    return render(request, 'dos_alamos/reservar/crear_r.html', datos)
+    return render(request, 'hostal/reservar/crear_r.html', datos)
 
 
 @login_required
 def confirmar_r(request):
 
     if request.method == 'POST':
-
-        reserva = {"medico": request.POST['medico'],"hora":request.POST['hora'],"dia":request.POST['dia'],"usuario":request.user, "hora_id": request.POST['hora_disponible']}
+        reserva = {"medico": request.POST['medico'],
+                   "hora":request.POST['hora'],
+                   "dia":request.POST['dia'],
+                   "usuario":request.user, 
+                   "hora_id": request.POST['hora_disponible']}
+       
     
-    return render(request, 'dos_alamos/reservar/confirmar_r.html', {'reserva': reserva})
+        
+    return render(request, 'hostal/reservar/confirmar_r.html', {'reserva' :reserva })
 
 
 @login_required
 def confirmar_r_post(request):
-
     if request.method == 'POST':
-
-        reserva = Reserva(info_id = request.POST['hora_disponible'], usuario=request.user,confirmada=True)
+        reserva = Reserva(info_id=request.POST['hora_disponible'], usuario=request.user, confirmada=True)
         reserva.save()
-        return redirect('read_r')
+        datos = {'mensaje': 'Guardado exitosamente'}  # Agrega el mensaje de éxito al diccionario 'datos'
+        return render(request, 'hostal/reservar/confirmar_r.html' ,datos)
+
 
 
 def read_r(request):
@@ -114,28 +117,32 @@ def read_r(request):
         
     }
     
-    return render(request,'dos_alamos/reservar/read_r.html', datos)
+    return render(request,'hostal/reservar/read_r.html', datos)
 
 
-def modify_r(request, id):
-
-    print(id)
-
-    reserva = Reserva.objects.get(id = id)
-
-    datos = {
-        'form': ReservaForm(instance=reserva)
-    }
+@login_required
+def modify_r(request, reserva_id):
+    datos = {}
+    reserva = get_object_or_404(Reserva, pk=reserva_id)
+    formulario = ReservaForm(instance=reserva)
 
     if request.method == 'POST':
-        formulario = ReservaForm(data=request.POST, instance=reserva, files=request.FILES)
+        formulario = ReservaForm(request.POST, instance=reserva)
         if formulario.is_valid():
-            formulario.save()
-            return redirect(to="read_r")
-        datos["form"] = formulario
-            
+            reserva = formulario.save(commit=False)
+            reserva.info = HoraDisponible.objects.get(pk=request.POST['hora_disponible'])
+            reserva.usuario = request.user
+            reserva.confirmada = True
+            reserva.save()
+            return redirect('read_r')
 
-    return render(request, 'dos_alamos/reservar/modify_r.html', datos)
+    
+
+    datos['form'] = formulario
+ 
+
+    return render(request, 'hostal/reservar/modify_r.html', datos)
+
 
 
 def eliminar_r(request,id):
@@ -157,7 +164,23 @@ def crear_m(request):
             formulario.save()
             datos['mensaje'] = 'Guardado exitosamente'
 
-    return render(request,'dos_alamos/medico/crear_m.html', datos)
+    return render(request,'hostal/medico/crear_m.html', datos)
+
+
+def crear_hora_disponible(request):
+
+    datos = {
+        'form' : HoraDisponibleForm()
+    }
+    if request.method == 'POST':
+        formulario = HoraDisponibleForm(request.POST)
+        
+        if formulario.is_valid:
+            formulario.save()
+            datos['mensaje'] = 'Guardado exitosamente'
+
+    return render(request,'hostal/medico/crear_hora_disponible.html', datos)
+
 
 
 def read_m(request):
@@ -169,7 +192,7 @@ def read_m(request):
         
     }
     
-    return render(request,'dos_alamos/medico/read_m.html', datos)
+    return render(request,'hostal/medico/read_m.html', datos)
 
 def eliminar_m(request,id):
     medico = Medico.objects.get(id =id)

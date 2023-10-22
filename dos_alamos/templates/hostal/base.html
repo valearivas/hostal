@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'hostal/css/style.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <title>Hostal Doña Clarita</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container op-navbarlist">
+                <a href="#" class="navbar-brand op-logo">
+                <img src="{% static 'hostal/img/LogoRecortado.png' %}" alt="Logo Hostal" class="logo-img" width="280">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Menú de navegación">
+                    <span class="navbar-toggler-icon"><i class="fas fa-bars op-vanbar-toggler-icon"></i></span>
+                </button>
+                <div class="collapse navbar-collapse op-navbarlist" id="navbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}" class="nav-link ml-lg-2 active text-dark fw-bold" style="font-size: 18px" >Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#nosotros" class="nav-link text-dark fw-bold" style="font-size: 18px" >Nosotros</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item dropdown text-dark fw-bold">
+                                <a class="nav-link dropdown-toggle text-dark fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 18px">
+                                    {{ user.username }}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    {% if user.username != '' %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'crear_r' %}" class="nav-link text-dark fw-bold" >Reserva de habitación</a>
+                                    </li>
+                                    {% endif %}
+                                    {% if perms.core.change_reserva %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'read_r' %}" class="nav-link text-dark fw-bold">Gestión de reservas</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'crear_m' %}" class="nav-link text-dark fw-bold">Registrar reserva</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'read_m' %}" class="nav-link text-dark fw-bold">Gestión huesped</a>
+                                    </li>
+                                    {% endif %}
+                                    {% if perms.core.add_servicio %}
+                                   
+                                    <li class="nav-item">
+                                        <a href="{% url 'crear_hora_disponible' %}" class="nav-link text-dark fw-bold">Crear horas Médicas</a>
+                                    </li>
+                                    {% endif %}
+                                    {% if perms.core.add_empleado %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'registro' %}" class="nav-link text-dark fw-bold">Registrar pacientes</a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'logout' %}" class="nav-link text-dark fw-bold" style="font-size: 18px">Cerrar Sesión</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{% url 'login' %}" class="nav-link text-dark fw-bold" style="font-size: 18px">Iniciar Sesión</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        {% block content %} {% endblock %}
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+ </html>
+ 
